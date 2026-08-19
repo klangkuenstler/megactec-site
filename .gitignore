@@ -1,0 +1,11 @@
+includes/config.php
+test.php
+api/smtp-test.php
+api/submit-debug.php
+api/submit-test.php
+api/diag.php
+vendor/
+*.zip
+.env
+.env.*
+.DS_Store

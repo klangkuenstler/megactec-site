@@ -833,7 +833,7 @@ label {
 .hero-sec2::before {
   width: 700px;
   height: 700px;
-  background: url(../assets/images/logo/circle.svg);
+  background: url(assets/images/logo/circle.svg);
   background-repeat: no-repeat;
   background-size: cover;
   color: #ff8f1792;
@@ -864,7 +864,7 @@ label {
 .hero-content-style1::after {
   height: 150px;
   width: 150px;
-  background: url(../assets/images/hero/mask-group.svg);
+  background: url(assets/images/hero/mask-group.svg);
   bottom: 0;
   right: 0;
   -webkit-animation: Roted 3s infinite;
@@ -1211,7 +1211,7 @@ rect {
 .service-cat-sec .single-service::before {
   content: "";
   position: absolute;
-  background: url(../assets/images/service/service-art.png);
+  background: url(assets/images/service/service-art.png);
   height: 100%;
   width: 100%;
   top: 0;
@@ -1265,7 +1265,7 @@ rect {
 	10. Newsletter Section CSS
 ===============================*/
 .video-sec {
-  background: url(../assets/images/newsletter/newsletter01.png) center/cover;
+  background: url(assets/images/newsletter/newsletter01.png) center/cover;
 }
 .video-sec .video-sec-overlay {
   padding: 175px 0px;
@@ -1353,7 +1353,7 @@ rect {
 }
 
 .video-sec2 {
-  background: url(../assets/images/newsletter/newsletter02.png) center/cover;
+  background: url(assets/images/newsletter/newsletter02.png) center/cover;
 }
 .video-sec2 .video-sec-overlay {
   background: rgba(16, 16, 16, 0.2);
@@ -1721,7 +1721,7 @@ rect {
 }
 .single-pricing .pricing-content ul.pricing-list li::before {
   content: "";
-  background: url(../assets/images/logo/checked.svg);
+  background: url(assets/images/logo/checked.svg);
   background-repeat: no-repeat;
   position: absolute;
   width: 20px;
@@ -2359,7 +2359,7 @@ rect {
 }
 .blog-item-details .blog-body ul.info-list li::before {
   content: "";
-  background: url(../assets/images/service/sli.png);
+  background: url(assets/images/service/sli.png);
   background-repeat: no-repeat;
   position: absolute;
   width: 20px;
@@ -2552,7 +2552,7 @@ rect {
 	20. Footer Section CSS
 ===============================*/
 .footer-sec {
-  background: url(../assets/images/footer/footer.png) center/cover;
+  background: url(assets/images/footer/footer.png) center/cover;
 }
 .footer-sec .footer-hr {
   margin-bottom: 0;
@@ -2730,7 +2730,7 @@ rect {
 }
 .service-details-content .info-part ul.info-list li::before {
   content: "";
-  background: url(../assets/images/service/sli.png);
+  background: url(assets/images/service/sli.png);
   background-repeat: no-repeat;
   position: absolute;
   width: 20px;
