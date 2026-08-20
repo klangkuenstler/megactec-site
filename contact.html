@@ -52,7 +52,7 @@
                                 <div class="menu-area__inner">
                                     <div class="mobile-nav-toggler align-items-center">
                                         <div class="site-ligo">
-                                            <a href="index.html">
+                                            <a href="./">
                                                 <img src="assets/images/logo/logo1.png" width="122" height="70" alt="site-logo">
                                             </a>
                                         </div>
@@ -111,7 +111,7 @@
                                                 <div class="main-header-one__bottom">
                                                     <div class="main-header-one__bottom-left d-flex">
                                                         <div class="site-ligo d-flex align-items-center">
-                                                            <a href="index.html">
+                                                            <a href="./">
                                                                 <img src="assets/images/logo/logo1.png"
                                                                 width="122"
                                                                 height="70"
@@ -122,11 +122,11 @@
                                                             <ul class="navigation">
                                                                 <li>
                                                                     <!-- class="menu-item-has-children" -->
-                                                                    <a href="index.html">Início</a>
+                                                                    <a href="./">Início</a>
                                                                     <!--
                                                                     <ul class="sub-menu">
                                                                         <li>
-                                                                            <a href="index.html">Home One</a>
+                                                                            <a href="./">Home One</a>
                                                                         </li>
                                                                         <li>
                                                                             <a href="home2.html">Home Two</a>
@@ -168,7 +168,7 @@
                                             <i class="fas fa-times"></i>
                                         </div>
                                         <div class="nav-logo">
-                                            <a href="index.html">
+                                            <a href="./">
                                                 <img src="assets/images/logo/site-logo.jpg" alt="Logo" />
                                             </a>
                                         </div>
@@ -208,7 +208,7 @@
                             <div class="breadcumb-content">
                                 <h1 class="breadcumb-title">Contacte-nos</h1>
                                 <ul class="page-navigator">
-                                    <li class="home"><a href="index.html">Início</a></li>
+                                    <li class="home"><a href="./">Início</a></li>
                                     <li class="current-page"><a href="#">Contacto</a></li>
                                 </ul>
                             </div>
@@ -288,11 +288,11 @@
                                     </div>
 
                                     <!-- Tipo de Equipamento -->
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-6">
                                         <div class="contact-field">
                                             <label for="equipamento">Tipo de Equipamento *</label>
                                             <select id="equipamento" name="equipment_type" required>
-                                                <option value="" disabled selected>Selecione o tipo de equipamento</option>
+                                                <option value="" disabled selected>Selecione o tipo</option>
                                                 <option value="Máquina de Lavar a Roupa">Máquina de Lavar a Roupa</option>
                                                 <option value="Máquina de Secar a Roupa">Máquina de Secar a Roupa</option>
                                                 <option value="Máquina de Lavar a Louça">Máquina de Lavar a Louça</option>
@@ -303,6 +303,28 @@
                                                 <option value="Placa a Gás">Placa a Gás</option>
                                                 <option value="Placa Vitrocerâmica">Placa Vitrocerâmica</option>
                                                 <option value="Placa de Indução">Placa de Indução</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Marca do Equipamento -->
+                                    <div class="col-sm-6">
+                                        <div class="contact-field">
+                                            <label for="marca">Marca do Equipamento *</label>
+                                            <select id="marca" name="equipment_brand" required>
+                                                <option value="" disabled selected>Selecione a marca</option>
+                                                <option value="AEG" data-warranty-url="https://support.aeg.com.pt/repairs/information">AEG</option>
+                                                <option value="Ariston">Ariston</option>
+                                                <option value="Beko">Beko</option>
+                                                <option value="Candy" data-warranty-url="https://www.candy-home.com/pt_PT/assistencia-tecnica/#contacte-nos">Candy</option>
+                                                <option value="Electrolux" data-warranty-url="https://support.electrolux.pt/repairs/information">Electrolux</option>
+                                                <option value="Haier" data-warranty-url="https://www.haier-europe.com/pt_PT/haier-premium-service/">Haier</option>
+                                                <option value="Hotpoint">Hotpoint</option>
+                                                <option value="Hoover" data-warranty-url="https://www.hoover-home.com/pt_PT/contatar-servico/">Hoover</option>
+                                                <option value="Indesit">Indesit</option>
+                                                <option value="Meireles" data-warranty-url="https://pedidoassistencia.meireles.pt/Pedido">Meireles</option>
+                                                <option value="Teka">Teka</option>
+                                                <option value="Whirlpool" data-warranty-url="https://www.whirlpoolservice.pt/servico-assistencia-tecnica-autorizado-portugal/">Whirlpool</option>
                                             </select>
                                         </div>
                                     </div>
@@ -330,6 +352,18 @@
                                                 <input type="checkbox" id="garantia" name="has_warranty" value="1" />
                                                 <span>O equipamento tem garantia</span>
                                             </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Aviso de Garantia (condicional) -->
+                                    <div class="col-sm-12" id="garantiaAviso" style="display: none;">
+                                        <div class="contact-field">
+                                            <div class="warranty-warning">
+                                                <i class="fa-solid fa-circle-info"></i>
+                                                <p>O seu equipamento <strong id="marcaAviso"></strong> encontra-se em garantia. Para assistência em garantia, deve preencher o pedido na página oficial da marca:</p>
+                                                <a id="garantiaLink" href="#" target="_blank" rel="noopener noreferrer" class="thm-btn thm-btn-style2 btm-rm"><span class="txt">Ir para a Página da Marca</span></a>
+                                                <p id="garantiaNota" style="display:none;font-size:13px;color:#555;margin-top:12px;">Os seus dados foram registados com sucesso. A Megactec poderá entrar em contacto consigo.</p>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -439,8 +473,8 @@
                                     <div class="footer-widget-content">
                                         <div class="footer-links">
                                             <ul>
-                                                <li><a href="index.html#o-que-fazemos">O Que Fazemos</a></li>
-                                                <li><a href="index.html#faqs">Perguntas Frequentes</a></li>
+                                                <li><a href="./#o-que-fazemos">O Que Fazemos</a></li>
+                                                <li><a href="./#faqs">Perguntas Frequentes</a></li>
                                                 <li><a href="contact.html">Contacte-Nos</a></li>
                                             </ul>
                                         </div>
@@ -495,6 +529,22 @@
             var garantiaCheckbox = document.getElementById('garantia');
             var faturaWrapper = document.getElementById('faturaWrapper');
             var faturaInput = document.getElementById('fatura');
+            var marcaSelect = document.getElementById('marca');
+            var garantiaAviso = document.getElementById('garantiaAviso');
+            var marcaAviso = document.getElementById('marcaAviso');
+            var garantiaLink = document.getElementById('garantiaLink');
+
+            function updateGarantiaAviso() {
+                var selectedOption = marcaSelect.options[marcaSelect.selectedIndex];
+                var warrantyUrl = selectedOption.getAttribute('data-warranty-url');
+                if (garantiaCheckbox.checked && warrantyUrl) {
+                    marcaAviso.textContent = selectedOption.value;
+                    garantiaLink.href = warrantyUrl;
+                    garantiaAviso.style.display = 'block';
+                } else {
+                    garantiaAviso.style.display = 'none';
+                }
+            }
 
             garantiaCheckbox.addEventListener('change', function () {
                 if (this.checked) {
@@ -506,6 +556,52 @@
                     faturaInput.value = '';
                     document.getElementById('faturaPreview').innerHTML = '';
                 }
+                updateGarantiaAviso();
+            });
+
+            marcaSelect.addEventListener('change', updateGarantiaAviso);
+            $(marcaSelect).on('change', updateGarantiaAviso);
+
+            var garantiaIframe = document.createElement('iframe');
+            garantiaIframe.name = 'warrantyFrame';
+            garantiaIframe.style.display = 'none';
+            document.body.appendChild(garantiaIframe);
+
+            var garantiaSent = false;
+            garantiaLink.addEventListener('click', function () {
+                if (garantiaSent) return;
+                garantiaSent = true;
+
+                var form = document.createElement('form');
+                form.method = 'POST';
+                form.action = 'api/warranty-redirect.php';
+                form.target = 'warrantyFrame';
+                form.style.display = 'none';
+
+                var fields = {
+                    client_name: document.getElementById('nome').value,
+                    address: document.getElementById('morada').value,
+                    phone: document.getElementById('telemovel').value,
+                    email: document.getElementById('email').value,
+                    equipment_type: document.getElementById('equipamento').value,
+                    equipment_brand: document.getElementById('marca').value,
+                    warranty_url: garantiaLink.href
+                };
+
+                for (var key in fields) {
+                    var input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = fields[key];
+                    form.appendChild(input);
+                }
+
+                document.body.appendChild(form);
+                form.submit();
+                document.body.removeChild(form);
+
+                var nota = document.getElementById('garantiaNota');
+                if (nota) nota.style.display = 'block';
             });
 
             function setupFilePreview(inputId, previewId) {
