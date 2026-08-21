@@ -99,13 +99,16 @@ function saveFile(array $file): string {
     return $filename;
 }
 
-function buildRow(string $label, string $value): string {
+function buildCopyRow(string $label, string $value, int $id): string {
     $safeValue = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 
     return <<<HTML
     <tr>
         <td style="padding:12px 16px;font-weight:600;color:#333;background:#f8f8f8;border:1px solid #e0e0e0;width:180px;vertical-align:top;">{$label}</td>
-        <td style="padding:12px 16px;color:#555;border:1px solid #e0e0e0;vertical-align:top;">{$safeValue}</td>
+        <td style="padding:12px 16px;color:#555;border:1px solid #e0e0e0;vertical-align:top;">
+            <span id="val-{$id}">{$safeValue}</span>
+            <button onclick="copyValue('val-{$id}', this)" style="margin-left:8px;padding:4px 10px;font-size:11px;background:#FF9017;color:#fff;border:none;border-radius:4px;cursor:pointer;white-space:nowrap;">Copiar</button>
+        </td>
     </tr>
 HTML;
 }
@@ -136,15 +139,16 @@ function sendRedirectEmail(array $data): void {
         $emailText = $data['email'] ?: 'Não indicado';
         $warrantyUrl = htmlspecialchars($data['warranty_url'], ENT_QUOTES, 'UTF-8');
 
+        $id = 0;
         $rows = '';
-        $rows .= buildRow('Nome', $data['client_name']);
-        $rows .= buildRow('Morada', $data['address']);
-        $rows .= buildRow('Telemóvel', $data['phone']);
-        $rows .= buildRow('Email', $emailText);
-        $rows .= buildRow('Equipamento', $data['equipment_type']);
-        $rows .= buildRow('Marca', $data['equipment_brand']);
-        $rows .= buildRow('Página da Marca', '<a href="' . $warrantyUrl . '" style="color:#FF9017;">' . $warrantyUrl . '</a>');
-        $rows .= buildRow('Data', date('d/m/Y \à\s H:i'));
+        $rows .= buildCopyRow('Nome', $data['client_name'], ++$id);
+        $rows .= buildCopyRow('Morada', $data['address'], ++$id);
+        $rows .= buildCopyRow('Telemóvel', $data['phone'], ++$id);
+        $rows .= buildCopyRow('Email', $emailText, ++$id);
+        $rows .= buildCopyRow('Equipamento', $data['equipment_type'], ++$id);
+        $rows .= buildCopyRow('Marca', $data['equipment_brand'], ++$id);
+        $rows .= buildCopyRow('Página da Marca', $warrantyUrl, ++$id);
+        $rows .= buildCopyRow('Data', date('d/m/Y \à\s H:i'), ++$id);
 
         $attachments = '';
         foreach ($data['files'] as $file) {
@@ -179,6 +183,17 @@ function sendRedirectEmail(array $data): void {
     </div>
 
 </div>
+<script>
+function copyValue(id, btn) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var text = el.textContent || el.innerText;
+    navigator.clipboard.writeText(text).then(function() {
+        btn.textContent = 'Copiado!';
+        setTimeout(function() { btn.textContent = 'Copiar'; }, 2000);
+    });
+}
+</script>
 </body>
 </html>
 HTML;
