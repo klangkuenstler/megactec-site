@@ -92,30 +92,13 @@ function saveFile(array $file): string {
     return $filename;
 }
 
-function buildCopyRow(string $label, string $value, int $id): string {
+function buildRow(string $label, string $value): string {
     $safeValue = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 
     return <<<HTML
     <tr>
         <td style="padding:12px 16px;font-weight:600;color:#333;background:#f8f8f8;border:1px solid #e0e0e0;width:180px;vertical-align:top;">{$label}</td>
-        <td style="padding:12px 16px;color:#555;border:1px solid #e0e0e0;vertical-align:top;">
-            <span id="val-{$id}">{$safeValue}</span>
-            <button onclick="copyValue('val-{$id}', this)" style="margin-left:8px;padding:4px 10px;font-size:11px;background:#FF9017;color:#fff;border:none;border-radius:4px;cursor:pointer;white-space:nowrap;">Copiar</button>
-        </td>
-    </tr>
-HTML;
-}
-
-function buildCopyRowTextarea(string $label, string $value, int $id): string {
-    $safeValue = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-
-    return <<<HTML
-    <tr>
-        <td style="padding:12px 16px;font-weight:600;color:#333;background:#f8f8f8;border:1px solid #e0e0e0;width:180px;vertical-align:top;">{$label}</td>
-        <td style="padding:12px 16px;color:#555;border:1px solid #e0e0e0;vertical-align:top;">
-            <div id="val-{$id}" style="white-space:pre-wrap;">{$safeValue}</div>
-            <button onclick="copyText('val-{$id}', this)" style="margin-top:6px;padding:4px 10px;font-size:11px;background:#FF9017;color:#fff;border:none;border-radius:4px;cursor:pointer;">Copiar</button>
-        </td>
+        <td style="padding:12px 16px;color:#555;border:1px solid #e0e0e0;vertical-align:top;">{$safeValue}</td>
     </tr>
 HTML;
 }
@@ -143,19 +126,18 @@ function sendEmail(array $data): void {
         $mail->isHTML(true);
         $mail->Subject = $data['email_subject'];
 
-        $id = 0;
         $warrantyText = $data['has_warranty'] ? 'Sim' : 'Não';
         $emailText = $data['email'] ?: 'Não indicado';
 
         $rows = '';
-        $rows .= buildCopyRow('Nome', $data['client_name'], ++$id);
-        $rows .= buildCopyRow('Morada', $data['address'], ++$id);
-        $rows .= buildCopyRow('Telemóvel', $data['phone'], ++$id);
-        $rows .= buildCopyRow('Email', $emailText, ++$id);
-        $rows .= buildCopyRow('Equipamento', $data['equipment_type'], ++$id);
-        $rows .= buildCopyRow('Garantia', $warrantyText, ++$id);
-        $rows .= buildCopyRowTextarea('Sintoma', $data['symptom'], ++$id);
-        $rows .= buildCopyRow('Data', date('d/m/Y \à\s H:i'), ++$id);
+        $rows .= buildRow('Nome', $data['client_name']);
+        $rows .= buildRow('Morada', $data['address']);
+        $rows .= buildRow('Telemóvel', $data['phone']);
+        $rows .= buildRow('Email', $emailText);
+        $rows .= buildRow('Equipamento', $data['equipment_type']);
+        $rows .= buildRow('Garantia', $warrantyText);
+        $rows .= buildRow('Sintoma', $data['symptom']);
+        $rows .= buildRow('Data', date('d/m/Y \à\s H:i'));
 
         $attachments = '';
         foreach ($data['files'] as $file) {
@@ -189,26 +171,6 @@ function sendEmail(array $data): void {
     </div>
 
 </div>
-<script>
-function copyValue(id, btn) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    var text = el.textContent || el.innerText;
-    navigator.clipboard.writeText(text).then(function() {
-        btn.textContent = 'Copiado!';
-        setTimeout(function() { btn.textContent = 'Copiar'; }, 2000);
-    });
-}
-function copyText(id, btn) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    var text = el.textContent || el.innerText;
-    navigator.clipboard.writeText(text).then(function() {
-        btn.textContent = 'Copiado!';
-        setTimeout(function() { btn.textContent = 'Copiar'; }, 2000);
-    });
-}
-</script>
 </body>
 </html>
 HTML;
