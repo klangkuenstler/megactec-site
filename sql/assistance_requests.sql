@@ -1,9 +1,10 @@
-CREATE TABLE IF NOT EXISTS `service_requests` (
+CREATE TABLE IF NOT EXISTS `assistance_requests` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `client_name` VARCHAR(150) NOT NULL,
     `address` VARCHAR(255) NOT NULL,
     `phone` VARCHAR(30) NOT NULL,
     `email` VARCHAR(255) NULL,
+    `nif` VARCHAR(9) NULL,
     `equipment_type` VARCHAR(100) NOT NULL,
     `has_warranty` TINYINT(1) NOT NULL DEFAULT 0,
     `equipment_label_photo` VARCHAR(255) NOT NULL,

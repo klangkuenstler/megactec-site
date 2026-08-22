@@ -146,6 +146,8 @@ function sendEmail(array $data): void {
         $rows .= buildCopyRow('Morada', $data['address'], ++$id);
         $rows .= buildCopyRow('Telemóvel', $data['phone'], ++$id);
         $rows .= buildCopyRow('Email', $emailText, ++$id);
+        $nifText = $data['nif'] ?: 'Não indicado';
+        $rows .= buildCopyRow('NIF', $nifText, ++$id);
         $rows .= buildCopyRow('Equipamento', $data['equipment_type'], ++$id);
         $rows .= buildCopyRow('Garantia', $warrantyText, ++$id);
         $rows .= buildCopyRowTextarea('Sintoma', $data['symptom'], ++$id);
@@ -188,7 +190,7 @@ function sendEmail(array $data): void {
 HTML;
 
         $mail->Body    = $html;
-        $mail->AltBody = "Pedido #{$data['request_id']}\nNome: {$data['client_name']}\nMorada: {$data['address']}\nTelemóvel: {$data['phone']}\nEmail: {$emailText}\nEquipamento: {$data['equipment_type']}\nGarantia: {$warrantyText}\nSintoma: {$data['symptom']}";
+        $mail->AltBody = "Pedido #{$data['request_id']}\nNome: {$data['client_name']}\nMorada: {$data['address']}\nTelemóvel: {$data['phone']}\nEmail: {$emailText}\nNIF: {$nifText}\nEquipamento: {$data['equipment_type']}\nGarantia: {$warrantyText}\nSintoma: {$data['symptom']}";
 
         $mail->send();
     } catch (Exception $e) {
@@ -245,12 +247,23 @@ try {
 
     $hasWarranty = isset($_POST['has_warranty']) && $_POST['has_warranty'] === '1' ? 1 : 0;
 
+    $nif = sanitizePlain($_POST['nif'] ?? '');
+    if ($nif !== '' && !preg_match('/^\d{9}$/', $nif)) {
+        $errors[] = 'O NIF deve conter exatamente 9 dígitos.';
+    }
+
+    if (!empty($errors)) {
+        http_response_code(422);
+        echo json_encode(['success' => false, 'errors' => $errors]);
+        exit;
+    }
+
     $stmt = getDb()->prepare("
-        INSERT INTO service_requests
-            (client_name, address, phone, email, equipment_type, has_warranty,
+        INSERT INTO assistance_requests
+            (client_name, address, phone, email, nif, equipment_type, has_warranty,
              equipment_label_photo, invoice_photo, symptom, ip_address)
         VALUES
-            (:client_name, :address, :phone, :email, :equipment_type, :has_warranty,
+            (:client_name, :address, :phone, :email, :nif, :equipment_type, :has_warranty,
              :equipment_label_photo, :invoice_photo, :symptom, :ip_address)
     ");
 
@@ -259,6 +272,7 @@ try {
         ':address'                => sanitizePlain($_POST['address']),
         ':phone'                  => sanitizePlain($_POST['phone']),
         ':email'                  => $email ?: null,
+        ':nif'                    => $nif ?: null,
         ':equipment_type'         => sanitizePlain($_POST['equipment_type']),
         ':has_warranty'           => $hasWarranty,
         ':equipment_label_photo'  => $labelFilename,
@@ -275,6 +289,7 @@ try {
         'address'         => sanitizePlain($_POST['address']),
         'phone'           => sanitizePlain($_POST['phone']),
         'email'           => $email,
+        'nif'             => $nif,
         'equipment_type'  => sanitizePlain($_POST['equipment_type']),
         'has_warranty'    => $hasWarranty,
         'symptom'         => sanitizePlain($_POST['symptom']),

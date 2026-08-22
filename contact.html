@@ -279,12 +279,30 @@
                                         </div>
                                     </div>
 
-                                    <!-- Email (opcional) -->
-                                    <div class="col-sm-6">
-                                        <div class="contact-field">
-                                            <label for="email">Email (opcional)</label>
-                                            <input type="email" id="email" name="email" placeholder="email@exemplo.pt" />
-                                        </div>
+                                    <!-- Campos Opcionais (dropdown) -->
+                                    <div class="col-sm-12">
+                                        <details class="optional-fields-wrapper">
+                                            <summary class="optional-fields-toggle">
+                                                <i class="fa-solid fa-chevron-down"></i>
+                                                <span>Campos opcionais</span>
+                                            </summary>
+                                            <div class="optional-fields-body">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="contact-field">
+                                                            <label for="email">Email</label>
+                                                            <input type="email" id="email" name="email" placeholder="email@exemplo.pt" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="contact-field">
+                                                            <label for="nif">Número de Contribuinte (NIF)</label>
+                                                            <input type="text" id="nif" name="nif" placeholder="Ex: 123456789" pattern="[0-9]{9}" maxlength="9" inputmode="numeric" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </details>
                                     </div>
 
                                     <!-- Tipo de Equipamento -->
@@ -583,6 +601,7 @@
                     address: document.getElementById('morada').value,
                     phone: document.getElementById('telemovel').value,
                     email: document.getElementById('email').value,
+                    nif: document.getElementById('nif').value,
                     equipment_type: document.getElementById('equipamento').value,
                     equipment_brand: document.getElementById('marca').value,
                     warranty_url: garantiaLink.href

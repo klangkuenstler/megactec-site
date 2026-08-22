@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS `warranty_redirects` (
     `address` VARCHAR(255) NOT NULL,
     `phone` VARCHAR(30) NOT NULL,
     `email` VARCHAR(255) NULL,
+    `nif` VARCHAR(9) NULL,
     `equipment_type` VARCHAR(100) NOT NULL,
     `equipment_brand` VARCHAR(100) NOT NULL,
     `warranty_url` VARCHAR(255) NOT NULL,

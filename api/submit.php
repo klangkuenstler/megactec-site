@@ -134,6 +134,8 @@ function sendEmail(array $data): void {
         $rows .= buildRow('Morada', $data['address']);
         $rows .= buildRow('Telemóvel', $data['phone']);
         $rows .= buildRow('Email', $emailText);
+        $nifText = $data['nif'] ?: 'Não indicado';
+        $rows .= buildRow('NIF', $nifText);
         $rows .= buildRow('Equipamento', $data['equipment_type']);
         $rows .= buildRow('Garantia', $warrantyText);
         $rows .= buildRow('Sintoma', $data['symptom']);
@@ -176,7 +178,7 @@ function sendEmail(array $data): void {
 HTML;
 
         $mail->Body    = $html;
-        $mail->AltBody = "Pedido #{$data['request_id']}\nNome: {$data['client_name']}\nMorada: {$data['address']}\nTelemóvel: {$data['phone']}\nEmail: {$emailText}\nEquipamento: {$data['equipment_type']}\nGarantia: {$warrantyText}\nSintoma: {$data['symptom']}";
+        $mail->AltBody = "Pedido #{$data['request_id']}\nNome: {$data['client_name']}\nMorada: {$data['address']}\nTelemóvel: {$data['phone']}\nEmail: {$emailText}\nNIF: {$nifText}\nEquipamento: {$data['equipment_type']}\nGarantia: {$warrantyText}\nSintoma: {$data['symptom']}";
 
         $mail->send();
     } catch (Exception $e) {
@@ -234,12 +236,23 @@ try {
 
     $hasWarranty = isset($_POST['has_warranty']) && $_POST['has_warranty'] === '1' ? 1 : 0;
 
+    $nif = sanitizePlain($_POST['nif'] ?? '');
+    if ($nif !== '' && !preg_match('/^\d{9}$/', $nif)) {
+        $errors[] = 'O NIF deve conter exatamente 9 dígitos.';
+    }
+
+    if (!empty($errors)) {
+        http_response_code(422);
+        echo json_encode(['success' => false, 'errors' => $errors]);
+        exit;
+    }
+
     $stmt = getDb()->prepare("
         INSERT INTO assistance_requests
-            (client_name, address, phone, email, equipment_type, has_warranty,
+            (client_name, address, phone, email, nif, equipment_type, has_warranty,
              label_photo, invoice_photo, symptom, ip_address)
         VALUES
-            (:client_name, :address, :phone, :email, :equipment_type, :has_warranty,
+            (:client_name, :address, :phone, :email, :nif, :equipment_type, :has_warranty,
              :label_photo, :invoice_photo, :symptom, :ip_address)
     ");
 
@@ -248,6 +261,7 @@ try {
         ':address'                => trim($_POST['address']),
         ':phone'                  => trim($_POST['phone']),
         ':email'                  => $email ?: null,
+        ':nif'                    => $nif ?: null,
         ':equipment_type'         => trim($_POST['equipment_type']),
         ':has_warranty'           => $hasWarranty,
         ':label_photo'            => $labelFilename,
@@ -264,6 +278,7 @@ try {
         'address'         => sanitizePlain($_POST['address']),
         'phone'           => sanitizePlain($_POST['phone']),
         'email'           => $email,
+        'nif'             => $nif,
         'equipment_type'  => sanitizePlain($_POST['equipment_type']),
         'has_warranty'    => $hasWarranty,
         'symptom'         => sanitizePlain($_POST['symptom']),

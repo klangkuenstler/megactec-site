@@ -141,6 +141,8 @@ function sendRedirectEmail(array $data): void {
         $rows .= buildRow('Morada', $data['address']);
         $rows .= buildRow('Telemóvel', $data['phone']);
         $rows .= buildRow('Email', $emailText);
+        $nifText = $data['nif'] ?: 'Não indicado';
+        $rows .= buildRow('NIF', $nifText);
         $rows .= buildRow('Equipamento', $data['equipment_type']);
         $rows .= buildRow('Marca', $data['equipment_brand']);
         $rows .= buildRow('Página da Marca', '<a href="' . $warrantyUrl . '" style="color:#FF9017;">' . $warrantyUrl . '</a>');
@@ -184,7 +186,7 @@ function sendRedirectEmail(array $data): void {
 HTML;
 
         $mail->Body    = $html;
-        $mail->AltBody = "Cliente redirecionado para a página da marca #{$data['id']}\nNome: {$data['client_name']}\nMorada: {$data['address']}\nTelemóvel: {$data['phone']}\nEmail: {$emailText}\nEquipamento: {$data['equipment_type']}\nMarca: {$data['equipment_brand']}\nPágina da Marca: {$data['warranty_url']}";
+        $mail->AltBody = "Cliente redirecionado para a página da marca #{$data['id']}\nNome: {$data['client_name']}\nMorada: {$data['address']}\nTelemóvel: {$data['phone']}\nEmail: {$emailText}\nNIF: {$nifText}\nEquipamento: {$data['equipment_type']}\nMarca: {$data['equipment_brand']}\nPágina da Marca: {$data['warranty_url']}";
 
         $mail->send();
     } catch (Exception $e) {
@@ -207,6 +209,11 @@ try {
     $email = sanitizePlain($_POST['email'] ?? '');
     if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = 'O email indicado não é válido.';
+    }
+
+    $nif = sanitizePlain($_POST['nif'] ?? '');
+    if ($nif !== '' && !preg_match('/^\d{9}$/', $nif)) {
+        $errors[] = 'O NIF deve conter exatamente 9 dígitos.';
     }
 
     $warrantyUrl = sanitizePlain($_POST['warranty_url'] ?? '');
@@ -248,10 +255,10 @@ try {
 
     $stmt = getDb()->prepare("
         INSERT INTO warranty_redirects
-            (client_name, address, phone, email, equipment_type,
+            (client_name, address, phone, email, nif, equipment_type,
              equipment_brand, warranty_url, ip_address)
         VALUES
-            (:client_name, :address, :phone, :email, :equipment_type,
+            (:client_name, :address, :phone, :email, :nif, :equipment_type,
              :equipment_brand, :warranty_url, :ip_address)
     ");
 
@@ -260,6 +267,7 @@ try {
         ':address'          => trim($_POST['address']),
         ':phone'            => trim($_POST['phone']),
         ':email'            => $email ?: null,
+        ':nif'              => $nif ?: null,
         ':equipment_type'   => trim($_POST['equipment_type']),
         ':equipment_brand'  => trim($_POST['equipment_brand']),
         ':warranty_url'     => $warrantyUrl,
@@ -274,6 +282,7 @@ try {
         'address'         => sanitizePlain($_POST['address']),
         'phone'           => sanitizePlain($_POST['phone']),
         'email'           => $email,
+        'nif'             => $nif,
         'equipment_type'  => sanitizePlain($_POST['equipment_type']),
         'equipment_brand' => sanitizePlain($_POST['equipment_brand']),
         'warranty_url'    => $warrantyUrl,

@@ -3288,3 +3288,52 @@ form.itco-cform .contact-field textarea:focus {
   line-height: 1.6;
   color: #856404;
 }
+
+/* Campos opcionais dropdown */
+.optional-fields-wrapper {
+  border: 1px solid rgba(56, 56, 56, 0.12);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.optional-fields-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  cursor: pointer;
+  font-family: var(--thm-heading-font);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--thm-heading-font-color);
+  list-style: none;
+  transition: background 0.2s;
+  user-select: none;
+}
+.optional-fields-toggle::-webkit-details-marker {
+  display: none;
+}
+.optional-fields-toggle::marker {
+  content: '';
+}
+.optional-fields-toggle:hover {
+  background: rgba(255, 144, 23, 0.04);
+}
+.optional-fields-toggle i {
+  font-size: 12px;
+  transition: transform 0.25s ease;
+  color: var(--thm-primary);
+}
+.optional-fields-wrapper[open] .optional-fields-toggle i {
+  transform: rotate(180deg);
+}
+.optional-fields-body {
+  padding: 0 22px 14px;
+}
+.optional-fields-body .row {
+  margin: 0;
+}
+.optional-fields-body .col-sm-6 {
+  padding-left: 0;
+  padding-right: 0;
+}
