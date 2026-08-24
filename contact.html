@@ -1,13 +1,23 @@
 <!-- ./frontend/src/index.html -->
 <!-- load all css -->
 <!DOCTYPE html>
-<html class="no-js" lang="pt">
+<html class="no-js" lang="pt-PT">
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="x-ua-compatible" content="ie=edge" />
-        <title>Megactec | Contactos</title>
-        <meta name="description" content="" />
+        <title>Contacto | Megactec - Assistência Técnica em Moimenta da Beira</title>
+        <meta name="description" content="Contacte a Megactec para assistência técnica de eletrodomésticos em Moimenta da Beira e região de Viseu. Peça o seu orçamento gratuito." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="canonical" href="https://megactec.pt/contact" />
+
+        <!-- Open Graph -->
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Contacto | Megactec - Assistência Técnica em Moimenta da Beira" />
+        <meta property="og:description" content="Contacte a Megactec para assistência técnica de eletrodomésticos em Moimenta da Beira e região de Viseu." />
+        <meta property="og:url" content="https://megactec.pt/contact" />
+        <meta property="og:site_name" content="Megactec" />
+        <meta property="og:locale" content="pt_PT" />
+        <meta property="og:image" content="https://megactec.pt/assets/images/logo/square-logo.png" />
 
         <link rel="shortcut icon" type="image/x-icon" href="assets/images/logo/square-logo.png" />
         <!-- Place favicon.ico in the root directory -->
@@ -31,6 +41,29 @@
 
         <link rel="stylesheet" href="styles.css" />
         <link rel="stylesheet" href="assets/css/responsive.css" />
+
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "ContactPage",
+            "name": "Contacto - Megactec",
+            "description": "Contacte a Megactec para assistência técnica de eletrodomésticos em Moimenta da Beira e região de Viseu.",
+            "url": "https://megactec.pt/contact",
+            "mainEntity": {
+                "@type": "LocalBusiness",
+                "name": "Megactec",
+                "telephone": "+351254583637",
+                "email": "geral@megactec.pt",
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "Parque Industrial",
+                    "addressLocality": "Moimenta da Beira",
+                    "addressRegion": "Viseu",
+                    "addressCountry": "PT"
+                }
+            }
+        }
+        </script>
     </head>
 
     <body class="body-dark-bg">
@@ -53,7 +86,7 @@
                                     <div class="mobile-nav-toggler align-items-center">
                                         <div class="site-ligo">
                                             <a href="./">
-                                                <img src="assets/images/logo/logo1.png" width="122" height="70" alt="site-logo">
+                                                <img src="assets/images/logo/logo1.png" width="122" height="70" alt="Megactec - assistência técnica de eletrodomésticos">
                                             </a>
                                         </div>
                                         <i class="fas fa-bars"></i>
@@ -115,7 +148,7 @@
                                                                 <img src="assets/images/logo/logo1.png"
                                                                 width="122"
                                                                 height="70"
-                                                                alt="site-logo" />
+                                                                alt="Megactec - assistência técnica de eletrodomésticos" />
                                                             </a>
                                                         </div>
                                                         <div class="navbar-wrap main-menu">
@@ -169,7 +202,7 @@
                                         </div>
                                         <div class="nav-logo">
                                             <a href="./">
-                                                <img src="assets/images/logo/site-logo.jpg" alt="Logo" />
+                                                <img src="assets/images/logo/site-logo.jpg" alt="Megactec" />
                                             </a>
                                         </div>
                                         <div class="menu-outer">
@@ -232,6 +265,7 @@
                                 allowfullscreen=""
                                 loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade"
+                                title="Localização da Megactec em Moimenta da Beira"
                             ></iframe>
                         </div>
                     </div>
@@ -245,7 +279,7 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="sec-content">
-                            <h2 class="sec-title">Pedido de Assistência Técnica</h2>
+                            <h2 id="pedido-assistencia-title" class="sec-title">Pedido de Assistência Técnica</h2>
                             <form
                                 id="assistenciaForm"
                                 action="api/submit.php"
@@ -471,7 +505,7 @@
                             <div class="col-sm-6 col-xl-3">
                                 <div class="footer-widget">
                                     <div class="footer-widget-logo">
-                                        <a href="/"><img src="assets/images/logo/logo1.png" alt="site-logo" width="122"  /></a>
+                                        <a href="/"><img src="assets/images/logo/logo1.png" alt="Megactec" width="122"  /></a>
                                     </div>
                                     <div class="footer-widget-content">
                                         <p class="ft-text">
@@ -690,6 +724,9 @@
                 .then(function (data) {
                     if (data.success) {
                         form.innerHTML = '<div style="text-align:center;padding:40px 0;"><h3 style="color:#FF9017;">Pedido Enviado com Sucesso!</h3><p>O seu pedido #' + data.id + ' foi registado. Entraremos em contacto brevemente.</p></div>';
+                        var el = document.getElementById('pedido-assistencia-title');
+                        var offset = el.getBoundingClientRect().top + window.pageYOffset - 100;
+                        window.scrollTo({ top: offset, behavior: 'smooth' });
                     } else {
                         var msg = data.errors ? data.errors.join('\n') : (data.error || 'Erro ao enviar o pedido.');
                         alert(msg);
