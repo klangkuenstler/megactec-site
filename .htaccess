@@ -1,2 +1,4 @@
+ErrorDocument 404 /error.html
+
 RewriteEngine On
 RewriteRule ^contact$ contact.html [L]
