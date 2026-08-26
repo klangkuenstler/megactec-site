@@ -1766,7 +1766,7 @@ rect {
 }
 .brand-slider .item img {
   max-width: 150px;
-  max-height: 80px;
+  height: auto;
 }
 
 /*=============================
