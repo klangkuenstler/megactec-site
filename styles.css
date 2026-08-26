@@ -1760,8 +1760,13 @@ rect {
   color: var(--thm-teal);
 }
 
+.brand-slider .item {
+  display: flex;
+  align-items: center;
+}
 .brand-slider .item img {
-  width: inherit;
+  max-width: 150px;
+  max-height: 80px;
 }
 
 /*=============================
