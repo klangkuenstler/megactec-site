@@ -228,6 +228,8 @@
         //add owl carousel in activation class
         loop: true,
         autoplay: true,
+        autoplayTimeout: 2000,
+        autoplaySpeed: 800,
         margin: 30,
         items: 4,
         nav: false,
